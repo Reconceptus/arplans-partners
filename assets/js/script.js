@@ -3,8 +3,21 @@ $(function () {
     $(function () {
         sendRequest('/item', {'category': 1})
     });
+
     $(document).on('click', '#send', function () {
         sendRequest('/item', {'category': 1})
+    });
+    $(document).on('click', '.reset-filter', function () {
+        resetFilter();
+    });
+
+    $(document).on('click', '.filter-checkbox', function () {
+        var name = $(this).prop('name');
+        if ($(this).prop('checked')) {
+            addParam(name, 'on')
+        } else {
+            addParam(name, '')
+        }
     });
 });
 
@@ -13,9 +26,38 @@ function addParam(paramName, paramVal) {
     var params = JSON.parse($('#params').text());
     if (paramName) {
         if (paramVal) {
-            params[paramName] = paramVal;
+            if (params[paramName] !== paramVal) {
+                params[paramName] = paramVal;
+                sendRequest(url, params);
+            }
         } else {
-            delete params[paramName]
+            delete params[paramName];
+            sendRequest(url, params);
+        }
+    }
+}
+
+function addParams(arr) {
+    var url = $('#url').text();
+    var params = JSON.parse($('#params').text());
+    for (key in arr) {
+        if (arr[key]) {
+            if (params[key] !== arr[key]) {
+                params[key] = arr[key];
+            }
+        } else {
+            delete params[key];
+        }
+    }
+    sendRequest(url, params);
+}
+
+function resetFilter() {
+    var url = $('#url').text();
+    var params = JSON.parse($('#params').text());
+    for (key in params) {
+        if (key !== 'category' && key !== 'sort') {
+            delete params[key];
         }
     }
     sendRequest(url, params);
@@ -39,3 +81,7 @@ function sendRequest(url, params = {}) {
         }
     });
 }
+
+$(document).on('mouseup', '.range', function () {
+    addParams({'minarea': $('#input-with-keypress-0').val(), 'maxarea': $('#input-with-keypress-1').val()});
+});
