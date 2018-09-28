@@ -1,11 +1,13 @@
 $(function () {
     'use strict';
     $(function () {
-        sendRequest('/item', {'category': 1})
+        document.cookie = "cart=" + cartId + "; path=/; expires=" + new Date(new Date().getTime() + 60 * 1000 * 60 * 24 * 10);
+        askPage('/item', {cart: cartId});
+        getCart();
     });
 
     $(document).on('click', '#send', function () {
-        sendRequest('/item', {'category': 1})
+        askPage('/item')
     });
     $(document).on('click', '.reset-filter', function () {
         resetFilter();
@@ -28,11 +30,11 @@ function addParam(paramName, paramVal) {
         if (paramVal) {
             if (params[paramName] !== paramVal) {
                 params[paramName] = paramVal;
-                sendRequest(url, params);
+                askPage(url, params);
             }
         } else {
             delete params[paramName];
-            sendRequest(url, params);
+            askPage(url, params);
         }
     }
 }
@@ -49,7 +51,7 @@ function addParams(arr) {
             delete params[key];
         }
     }
-    sendRequest(url, params);
+    askPage(url, params);
 }
 
 function resetFilter() {
@@ -60,10 +62,33 @@ function resetFilter() {
             delete params[key];
         }
     }
-    sendRequest(url, params);
+    askPage(url, params);
+}
+
+/**
+ * Запросить страницу с переданными параметрами
+ * @param url
+ * @param params
+ */
+function askPage(url, params = {}) {
+    var rend = function (data) {
+        if (data.status === 'success') {
+            $(mainElement).html(data.html);
+            $('#url').text(url);
+            $('#params').text(JSON.stringify(params));
+            if (data.count) {
+                $('#numCart').text(data.count);
+            }
+            if (data.inCart) {
+                $('#inCart').text(JSON.stringify(data.inCart));
+            }
+        }
+    };
+    sendRequest(url, params).then(data => rend(data));
 }
 
 function sendRequest(url, params = {}) {
+    var promise = $.Deferred();
     $.ajax({
         url: "http://" + server + url,
         data: params,
@@ -75,12 +100,33 @@ function sendRequest(url, params = {}) {
         },
         headers: {'Authorization': 'Bearer asd'},
         success: function (result) {
-            $(mainElement).html(result);
-            $('#url').text(url);
-            $('#params').text(JSON.stringify(params));
+            promise.resolve(result)
         }
     });
+    return promise;
 }
+
+function getCart() {
+    function f(data){
+
+    }
+    sendRequest('/item/get-cart', {guid: cartId})
+}
+
+function toCart(id) {
+    function f(data) {
+        if (data.status === 'success') {
+            var cart = JSON.parse($('#inCart').text()),
+                numCart = parseInt($('#numCart').text());
+            cart[id] = data.count;
+            $('#inCart').text(JSON.stringify(cart));
+            $('#numCart').text(numCart + data.count);
+        }
+    }
+
+    sendRequest('/item/to-cart', {id: id, cart: cartId}).then(data => f(data));
+}
+
 
 $(document).on('mouseup', '.range', function () {
     addParams({'minarea': $('#input-with-keypress-0').val(), 'maxarea': $('#input-with-keypress-1').val()});
