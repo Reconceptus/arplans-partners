@@ -65,6 +65,10 @@ function resetFilter() {
     askPage(url, params);
 }
 
+function openItem(id) {
+    askPage('/item/' + id);
+}
+
 /**
  * Запросить страницу с переданными параметрами
  * @param url
@@ -107,10 +111,12 @@ function sendRequest(url, params = {}) {
 }
 
 function getCart() {
-    function f(data){
-
+    function f(data) {
+        $('#inCart').text(JSON.stringify(data));
+        $('#numCart').text(data.length);
     }
-    sendRequest('/item/get-cart', {guid: cartId})
+
+    sendRequest('/cart/get-cart', {guid: cartId}).then(data => f(data));
 }
 
 function toCart(id) {
@@ -123,8 +129,7 @@ function toCart(id) {
             $('#numCart').text(numCart + data.count);
         }
     }
-
-    sendRequest('/item/to-cart', {id: id, cart: cartId}).then(data => f(data));
+    sendRequest('/cart/to-cart', {id: id, cart: cartId}).then(data => f(data));
 }
 
 

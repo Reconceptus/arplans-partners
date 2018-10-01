@@ -5,6 +5,7 @@ if (!$cart) {
     $cart = randomString(32);
 }
 require_once('config.php');
+require_once('_header_top.php');
 require_once('_header.php');
 ?>
 <script>
