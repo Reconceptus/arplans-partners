@@ -7,12 +7,19 @@
     cursor: pointer;
 }
 
-.incart{
+.incart {
     background-color: #346697;
     border-color: #346697;
     color: #fff;
 }
 
-.service-link:hover{
+.service-link:hover {
     color: #3466dd;
+}
+
+a {
+    cursor: pointer;
+}
+.hidden{
+    display: none;
 }
