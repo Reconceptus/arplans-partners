@@ -2,7 +2,7 @@ $(function () {
     'use strict';
     $(function () {
         document.cookie = "cart=" + cartId + "; path=/; expires=" + new Date(new Date().getTime() + 60 * 1000 * 60 * 24 * 10);
-        askPage('/item', {cart: cartId});
+        askPage('/item', {cart: cartId}, true);
         getCart();
     });
 
@@ -11,6 +11,9 @@ $(function () {
     });
     $(document).on('click', '.reset-filter', function () {
         resetFilter();
+    });
+    $(document).on('click', '.cat-link-api', function () {
+        askPage('/item', {category: $(this).prop('data-category')});
     });
 
     $(document).on('click', '.filter-checkbox', function () {
@@ -74,21 +77,31 @@ function openItem(id) {
  * @param url
  * @param params
  */
-function askPage(url, params = {}) {
-    var rend = function (data) {
+function askPage(url, params = {}, askCat=false) {
+    var f = function (data) {
         if (data.status === 'success') {
             $(mainElement).html(data.html);
             $('#url').text(url);
             $('#params').text(JSON.stringify(params));
             if (data.count) {
-                $('#numCart').text(data.count);
+                $('#api-cart-count').text(data.count);
             }
             if (data.inCart) {
                 $('#inCart').text(JSON.stringify(data.inCart));
             }
+            if (data.categories) {
+                for (var key in data.categories) {
+                    if (data.categories.hasOwnProperty(key)) {
+                        $('.menu-elements').append('<li><a class="cat-link-api" data-category="key">' + data.categories[key] + '</a></li>')
+                    }
+                }
+            }
         }
     };
-    sendRequest(url, params).then(data => rend(data));
+    if(askCat) {
+        params['askCat'] = 1;
+    }
+    sendRequest(url, params).then(data => f(data));
 }
 
 function sendRequest(url, params = {}) {
@@ -113,7 +126,7 @@ function sendRequest(url, params = {}) {
 function getCart() {
     function f(data) {
         $('#inCart').text(JSON.stringify(data));
-        $('#numCart').text(data.length);
+        $('#api-cart-count').text(data.length);
     }
 
     sendRequest('/cart/get-cart', {guid: cartId}).then(data => f(data));
@@ -123,12 +136,13 @@ function toCart(id) {
     function f(data) {
         if (data.status === 'success') {
             var cart = JSON.parse($('#inCart').text()),
-                numCart = parseInt($('#numCart').text());
+                numCart = parseInt($('#api-cart-count').text());
             cart[id] = data.count;
             $('#inCart').text(JSON.stringify(cart));
-            $('#numCart').text(numCart + data.count);
+            $('#api-cart-count').text(numCart + data.count);
         }
     }
+
     sendRequest('/cart/to-cart', {id: id, cart: cartId}).then(data => f(data));
 }
 
