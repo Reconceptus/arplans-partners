@@ -40,6 +40,60 @@ $(function () {
             sumContainer.text(parseInt(sumContainer.text(), 10) - price);
         }
     });
+
+    $(document).on('click', '.js-order', function () {
+        function f(data) {
+            if (data.status === 'success') {
+                alert('Заказ ' + data.orderId + ' успешно оформлен');
+            }
+        }
+
+        var button = $(this);
+        var items = [];
+        var services = [];
+        var reEmail = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,5}$/i;
+        $('.album-num').each(function (index, item) {
+            items.push({
+                id: $(item).attr('data-id'),
+                count: item.value,
+                change: $(item).closest('.compare-table--item').find('.order-change-materials').prop('checked') ? 1 : 0
+            })
+        });
+        $('.cart-service').each(function (index, item) {
+            if ($(item).prop('checked')) {
+                services.push($(item).attr('data-id'));
+            }
+        });
+        var info = {
+            'fio': $('#order-fio').val(),
+            'phone': $('#order-phone').val(),
+            'email': $('#order-email').val(),
+            'country': $('#order-country').val(),
+            'city': $('#order-city').val(),
+            'address': $('#order-address').val(),
+            'village': $('#order-village').val(),
+            'accept': $('#order-accept').prop('checked') ? 1 : 0
+        };
+        if (!info.accept) {
+            alert('Подтвердите согласие на использование персональных данных');
+            return false;
+        }
+        if (!reEmail.test(info.email)) {
+            alert('Email, указанный вами, некорректен');
+            return false;
+        }
+        if (!info.fio || !info.phone || !info.email || !info.city || !info.address) {
+            alert('Заполнены не все поля');
+            return false;
+        }
+        console.log(cartId);
+        sendRequest('/cart/order', {
+            items: items,
+            info: info,
+            services: services,
+            guid: cartId
+        }).then(data => f(data));
+    })
 });
 
 function addParam(paramName, paramVal) {
@@ -93,7 +147,7 @@ function openItem(id) {
  * @param url
  * @param params
  */
-function askPage(url, params = {}, askCat=false) {
+function askPage(url, params = {}, askCat = false) {
     var f = function (data) {
         if (data.status === 'success') {
             $(mainElement).html(data.html);
@@ -114,7 +168,7 @@ function askPage(url, params = {}, askCat=false) {
             }
         }
     };
-    if(askCat) {
+    if (askCat) {
         params['askCat'] = 1;
     }
     sendRequest(url, params).then(data => f(data));
@@ -164,44 +218,49 @@ function toCart(id) {
 
 function plusAlbum(item_id) {
     var sum = parseInt($('#totalsum').text());
-    var lotPrice = parseInt($('.price .price-num[data-id='+item_id+']').text());
+    var lotPrice = parseInt($('.price .price-num[data-id=' + item_id + ']').text());
 
     function f(data) {
         if (data.status === 'success') {
-            $('.album-num[data-id='+item_id+']').text(data.count);
-            $('.album-num[data-id='+item_id+']').prop('value', data.count);
-            $('.price-num[data-id='+item_id+']').text(data.price);
-            $('#totalsum').text(sum-lotPrice+data.price);
+            $('.album-num[data-id=' + item_id + ']').text(data.count);
+            $('.album-num[data-id=' + item_id + ']').prop('value', data.count);
+            $('.price-num[data-id=' + item_id + ']').text(data.price);
+            $('#totalsum').text(sum - lotPrice + data.price);
         }
     }
+
     sendRequest('/cart/plus', {id: item_id, guid: cartId}).then(data => f(data));
 }
 
 function minusAlbum(item_id) {
     var sum = parseInt($('#totalsum').text());
-    var lotPrice = parseInt($('.price .price-num[data-id='+item_id+']').text());
+    var lotPrice = parseInt($('.price .price-num[data-id=' + item_id + ']').text());
+
     function f(data) {
         if (data.status === 'success') {
-            $('.album-num[data-id='+item_id+']').text(data.count);
-            $('.album-num[data-id='+item_id+']').prop('value', data.count);
-            $('.price-num[data-id='+item_id+']').text(data.price);
-            $('#totalsum').text(sum-lotPrice+data.price);
+            $('.album-num[data-id=' + item_id + ']').text(data.count);
+            $('.album-num[data-id=' + item_id + ']').prop('value', data.count);
+            $('.price-num[data-id=' + item_id + ']').text(data.price);
+            $('#totalsum').text(sum - lotPrice + data.price);
         }
     }
+
     sendRequest('/cart/minus', {id: item_id, guid: cartId}).then(data => f(data));
 }
 
 function deleteItem(item_id) {
     var sum = parseInt($('#totalsum').text());
-    var lotPrice = parseInt($('.price-num[data-id='+item_id+']').text());
+    var lotPrice = parseInt($('.price-num[data-id=' + item_id + ']').text());
+
     function f(data) {
         if (data.status === 'success') {
-            $('.compare-table--item[data-id='+item_id+']').remove();
-            $('.you-buy[data-id='+item_id+']').remove();
-            $('#api-cart-count').text(parseInt($('#api-cart-count').text())-1);
-            $('#totalsum').text(sum-lotPrice);
+            $('.compare-table--item[data-id=' + item_id + ']').remove();
+            $('.you-buy[data-id=' + item_id + ']').remove();
+            $('#api-cart-count').text(parseInt($('#api-cart-count').text()) - 1);
+            $('#totalsum').text(sum - lotPrice);
         }
     }
+
     sendRequest('/cart/delete-item', {id: item_id, guid: cartId}).then(data => f(data));
 }
 
