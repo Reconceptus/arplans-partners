@@ -44,6 +44,8 @@ $(function () {
     $(document).on('click', '.js-order', function () {
         function f(data) {
             if (data.status === 'success') {
+                $('#api-cart-count').text(0);
+                $('#inCart').text(JSON.stringify([]));
                 alert('Заказ ' + data.orderId + ' успешно оформлен');
             }
         }
@@ -86,7 +88,6 @@ $(function () {
             alert('Заполнены не все поля');
             return false;
         }
-        console.log(cartId);
         sendRequest('/cart/order', {
             items: items,
             info: info,
