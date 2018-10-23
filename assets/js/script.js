@@ -168,6 +168,7 @@ function askPage(url, params = {}, askCat = false) {
                     }
                 }
             }
+            project.initProjectGallery();
         }
     };
     if (askCat) {
