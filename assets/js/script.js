@@ -13,7 +13,7 @@ $(function () {
         resetFilter();
     });
     $(document).on('click', '.cat-link-api', function () {
-        askPage('/item', {category: $(this).prop('data-category')});
+        askPage('/item', {category: $(this).attr('data-category')});
     });
 
     $(document).on('click', '.filter-checkbox', function () {
@@ -163,10 +163,12 @@ function askPage(url, params = {}, askCat = false) {
             if (data.categories) {
                 for (var key in data.categories) {
                     if (data.categories.hasOwnProperty(key)) {
-                        $('.menu-elements').append('<li><a class="cat-link-api" data-category="key">' + data.categories[key] + '</a></li>')
+                        console.log(key);
+                        $('.menu-elements').append('<li><a class="cat-link-api" data-category="'+key+'">' + data.categories[key] + '</a></li>')
                     }
                 }
             }
+            project.initProjectGallery();
         }
     };
     if (askCat) {
