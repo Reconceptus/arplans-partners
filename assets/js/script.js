@@ -140,13 +140,14 @@ function resetFilter() {
 }
 
 function openItem(id) {
-    askPage('/item/' + id);
+    askPage('/item/' + id,{id:id});
 }
 
 /**
  * Запросить страницу с переданными параметрами
  * @param url
  * @param params
+ * @param askCat
  */
 function askPage(url, params = {}, askCat = false) {
     var f = function (data) {
@@ -163,12 +164,13 @@ function askPage(url, params = {}, askCat = false) {
             if (data.categories) {
                 for (var key in data.categories) {
                     if (data.categories.hasOwnProperty(key)) {
-                        console.log(key);
-                        $('.menu-elements').append('<li><a class="cat-link-api" data-category="'+key+'">' + data.categories[key] + '</a></li>')
+                        $('.menu-elements').append('<li><a class="cat-link-api" data-category="' + key + '">' + data.categories[key] + '</a></li>')
                     }
                 }
             }
-            project.initProjectGallery();
+            if(params.id) {
+                project.initProjectGallery();
+            }
         }
     };
     if (askCat) {
