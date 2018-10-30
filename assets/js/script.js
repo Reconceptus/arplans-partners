@@ -140,7 +140,7 @@ function resetFilter() {
 }
 
 function openItem(id) {
-    askPage('/item/' + id,{id:id});
+    askPage('/item/' + id, {id: id});
 }
 
 /**
@@ -162,13 +162,14 @@ function askPage(url, params = {}, askCat = false) {
                 $('#inCart').text(JSON.stringify(data.inCart));
             }
             if (data.categories) {
+                $('.menu-elements').html('');
                 for (var key in data.categories) {
                     if (data.categories.hasOwnProperty(key)) {
                         $('.menu-elements').append('<li><a class="cat-link-api" data-category="' + key + '">' + data.categories[key] + '</a></li>')
                     }
                 }
             }
-            if(params.id) {
+            if (params.id) {
                 project.initProjectGallery();
             }
         }

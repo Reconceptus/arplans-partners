@@ -1,6 +1,8 @@
 <?php
 require_once('functions.php');
-$cart = $_COOKIE['cart'];
+if (isset($_COOKIE['cart'])) {
+    $cart = $_COOKIE['cart'];
+}
 if (!$cart) {
     $cart = randomString(32);
 }
