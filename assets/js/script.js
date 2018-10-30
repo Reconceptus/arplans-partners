@@ -162,10 +162,11 @@ function askPage(url, params = {}, askCat = false) {
                 $('#inCart').text(JSON.stringify(data.inCart));
             }
             if (data.categories) {
-                $('.menu-elements').html('');
                 for (var key in data.categories) {
                     if (data.categories.hasOwnProperty(key)) {
-                        $('.menu-elements').append('<li><a class="cat-link-api" data-category="' + key + '">' + data.categories[key] + '</a></li>')
+                        if($('a.cat-link-api[data-category=' + key + ']').length ===0) {
+                            $('.menu-elements').append('<li><a class="cat-link-api" data-category="' + key + '">' + data.categories[key] + '</a></li>')
+                        }
                     }
                 }
             }
