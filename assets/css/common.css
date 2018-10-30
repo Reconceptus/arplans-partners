@@ -20,6 +20,11 @@
 a {
     cursor: pointer;
 }
-.hidden{
+
+.hidden {
     display: none;
+}
+
+.js-favor {
+    visibility: hidden;
 }
