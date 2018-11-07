@@ -76,6 +76,7 @@
 <script type="text/javascript" src="assets/js/wNumb.js"></script>
 <script type="text/javascript" src="assets/js/nouislider.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.fancybox.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.validate.min.js"></script>
 <script src="assets/js/main.min.js"></script>
 <script src="assets/js/script.js"></script>
