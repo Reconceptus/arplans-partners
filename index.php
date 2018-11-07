@@ -3,7 +3,7 @@ require_once('functions.php');
 if (isset($_COOKIE['cart'])) {
     $cart = $_COOKIE['cart'];
 }
-if (!$cart) {
+if (!isset($cart)||!$cart) {
     $cart = randomString(32);
 }
 require_once('config.php');
