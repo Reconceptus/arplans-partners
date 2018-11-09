@@ -19,6 +19,7 @@ require_once('_header.php');
 <div class="hidden variables">
     <div id="url"></div>
     <div id="params"></div>
+    <div id="catalog-params"></div>
     <div id="inCart"></div>
 </div>
 <div id="main" class="main">

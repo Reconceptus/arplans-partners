@@ -9,6 +9,10 @@ $(function () {
     $(document).on('click', '#send', function () {
         askPage('/item')
     });
+    $(document).on('click', '#back_to_cat', function () {
+        var params = JSON.parse($('#catalog-params').text());
+        askPage('/item', params)
+    });
     $(document).on('click', '.reset-filter', function () {
         resetFilter();
     });
@@ -140,6 +144,8 @@ function resetFilter() {
 }
 
 function openItem(id) {
+    var params = $('#params').text();
+    $('#catalog-params').text(params);
     askPage('/item/' + id, {id: id});
 }
 
