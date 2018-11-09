@@ -146,7 +146,7 @@ function resetFilter() {
 function openItem(id) {
     var params = $('#params').text();
     $('#catalog-params').text(params);
-    askPage('/item/' + id, {id: id});
+    askPage('/item/' + id, {id: id, cart: cartId});
 }
 
 /**
@@ -170,7 +170,7 @@ function askPage(url, params = {}, askCat = false) {
             if (data.categories) {
                 for (var key in data.categories) {
                     if (data.categories.hasOwnProperty(key)) {
-                        if($('a.cat-link-api[data-category=' + key + ']').length ===0) {
+                        if ($('a.cat-link-api[data-category=' + key + ']').length === 0) {
                             $('.menu-elements').append('<li><a class="cat-link-api" data-category="' + key + '">' + data.categories[key] + '</a></li>')
                         }
                     }
@@ -220,7 +220,8 @@ function toCart(id) {
         if (data.status === 'success') {
             var cart = JSON.parse($('#inCart').text()),
                 numCart = parseInt($('#api-cart-count').text());
-            cart[id] = data.count;
+            cart.push(id);
+            $('a.basket[data-id=' + id + ']').text('В корзине').addClass('incart');
             $('#inCart').text(JSON.stringify(cart));
             $('#api-cart-count').text(numCart + data.count);
         }
