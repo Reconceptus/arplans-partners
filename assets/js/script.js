@@ -9,6 +9,7 @@ $(function () {
         e.preventDefault();
         var page = parseInt($(this).data('page')) + 1;
         askPage('/item',{page:page});
+        $(window).scrollTop(0);
     });
 
     $(document).on('click', '#send', function () {
