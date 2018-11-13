@@ -5,6 +5,11 @@ $(function () {
         askPage('/item', {cart: cartId}, true);
         getCart();
     });
+    $(document).on('click', '.paginator-page', function(e) {
+        e.preventDefault();
+        var page = parseInt($(this).data('page')) + 1;
+        askPage('/item',{page:page});
+    });
 
     $(document).on('click', '#send', function () {
         askPage('/item')
