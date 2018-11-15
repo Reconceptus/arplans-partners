@@ -164,6 +164,7 @@ function resetFilter() {
 function openItem(id) {
     var params = $('#params').text();
     $('#catalog-params').text(params);
+    $('#itemId').val(id);
     askPage('/item/' + id, {id: id, cart: cartId});
 }
 
