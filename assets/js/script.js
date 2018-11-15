@@ -5,10 +5,22 @@ $(function () {
         askPage('/item', {cart: cartId}, true);
         getCart();
     });
-    $(document).on('click', '.paginator-page', function(e) {
+    $(".show-modal").click(function (e) {
+        e.preventDefault();
+        var t = $(this).attr("data-modal");
+        $('.modal[data-modal="' + t + '"]').addClass("active"), bodyScrollLock.disableBodyScroll()
+    });
+
+    $(document).on('click', '.show-modal', function (e) {
+        e.preventDefault();
+        var t = $(this).attr("data-modal");
+        $('.modal[data-modal="' + t + '"]').addClass("active"), bodyScrollLock.disableBodyScroll()
+    });
+
+    $(document).on('click', '.paginator-page', function (e) {
         e.preventDefault();
         var page = parseInt($(this).data('page')) + 1;
-        askPage('/item',{page:page});
+        askPage('/item', {page: page});
         $(window).scrollTop(0);
     });
 
@@ -202,7 +214,7 @@ function sendRequest(url, params = {}) {
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Accept', '*/*');
             xhr.setRequestHeader('Cache-Control', 'no-cache');
-            xhr.setRequestHeader('Authorization', "Bearer asd");
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
         },
         headers: {'Authorization': 'Bearer asd'},
         success: function (result) {
