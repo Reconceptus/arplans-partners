@@ -195,11 +195,12 @@ function askPage(url, params = {}, askCat = false) {
                     }
                 }
             }
+            project.showMore();
             if (params.id) {
                 project.initProjectGallery();
+                project.planCarousel();
             }
         }
-        $(".owl-carousel").owlCarousel();
     };
     if (askCat) {
         params['askCat'] = 1;
