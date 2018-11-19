@@ -65,7 +65,7 @@
     <div class="bg close"></div>
     <div class="modal-box">
         <span class="close">&times;</span>
-        <h3 class="modal-title">Мы очень быстро свяжемся с вами</h3>
+        <h3 class="modal-title">Запрос на смету</h3>
         <div class="modal-form">
             <form action="#" id="calculation-form">
                 <div class="modal-form--fields">
