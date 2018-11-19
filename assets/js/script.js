@@ -199,6 +199,10 @@ function askPage(url, params = {}, askCat = false) {
             if (params.id) {
                 project.initProjectGallery();
                 project.planCarousel();
+            } else{
+                if ($('#header').hasClass('is-open')) {
+                    $('#header').removeClass('is-open');
+                }
             }
         }
     };
