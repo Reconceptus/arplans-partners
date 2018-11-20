@@ -28,3 +28,7 @@ a {
 .js-favor {
     visibility: hidden;
 }
+
+.tab06 .link{
+    display: none;
+}
