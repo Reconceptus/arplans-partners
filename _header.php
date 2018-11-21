@@ -25,7 +25,7 @@
                 <!--                        </svg>-->
                 <!--                    </i>-->
                 <!--                </a>-->
-                <a onclick="askPage('/cart',{guid:cartId})" class="stats stats-prods">
+                <a href="javascript:void(0);" onclick="askPage('/cart',{guid:cartId})" class="stats stats-prods">
                     <span id="api-cart-count"></span>
                     <i class="icon-basket">
                         <svg xmlns="http://www.w3.org/2000/svg">

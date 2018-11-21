@@ -20,7 +20,8 @@ $(function () {
     $(document).on('click', '.paginator-page', function (e) {
         e.preventDefault();
         var page = parseInt($(this).data('page')) + 1;
-        askPage('/item', {page: page});
+        var category = $('#category').text();
+        askPage('/item', {page: page, category: category});
         $(window).scrollTop(0);
     });
 
@@ -165,7 +166,7 @@ function openItem(id) {
     var params = $('#params').text();
     $('#catalog-params').text(params);
     $('#itemId').val(id);
-    askPage('/item/' + id, {id: id, cart: cartId});
+    askPage('/item/' + id, {id: id, cart: cartId, category: params.category});
 }
 
 /**
@@ -179,6 +180,9 @@ function askPage(url, params = {}, askCat = false) {
         if (data.status === 'success') {
             $(mainElement).html(data.html);
             $('#url').text(url);
+            if (data.category_id) {
+                $('#category').text(data.category_id);
+            }
             $('#params').text(JSON.stringify(params));
             if (data.count) {
                 $('#api-cart-count').text(data.count);
@@ -200,7 +204,7 @@ function askPage(url, params = {}, askCat = false) {
                 project.initProjectGallery();
                 project.planCarousel();
                 project.tabsBox();
-            } else{
+            } else {
                 if ($('#header').hasClass('is-open')) {
                     $('#header').removeClass('is-open');
                 }
