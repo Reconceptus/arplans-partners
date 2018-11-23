@@ -55,7 +55,10 @@ $(function () {
         var sumContainer = $('#totalsum');
         var id = button.data('id');
         if (button.prop('checked')) {
-            var string = '<li class="service-buy" data-id="' + id + '">Услуга ' + name + ' на сумму <span class="service-sum" data-id="' + id + '">' + price + '</span></li>';
+            var string = '<li class="service-buy" data-id="' + id + '">' +
+                'Услуга ' + name +
+                // ' на сумму <span class="service-sum" data-id="' + id + '">' + price + '</span>' +
+                '</li>';
             $('#items-to-buy').append(string);
             sumContainer.text(parseInt(sumContainer.text(), 10) + price);
         } else {
