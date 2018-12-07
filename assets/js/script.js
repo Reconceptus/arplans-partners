@@ -225,7 +225,7 @@ function askPage(url, params = {}, askCat = false) {
 function sendRequest(url, params = {}) {
     var promise = $.Deferred();
     $.ajax({
-        url: "http://" + server + url,
+        url: server + url,
         data: params,
         type: "GET",
         beforeSend: function (xhr) {
@@ -233,7 +233,7 @@ function sendRequest(url, params = {}) {
             xhr.setRequestHeader('Cache-Control', 'no-cache');
             xhr.setRequestHeader('Authorization', "Bearer " + token);
         },
-        headers: {'Authorization': 'Bearer asd'},
+        headers: {'Authorization': 'Bearer ' + token},
         success: function (result) {
             promise.resolve(result)
         }
