@@ -19,9 +19,12 @@ $(function () {
 
     $(document).on('click', '.paginator-page', function (e) {
         e.preventDefault();
+        var params = JSON.parse($('#params').text());
         var page = parseInt($(this).data('page')) + 1;
         var category = $('#category').text();
-        askPage('/item', {page: page, category: category});
+        params['page'] = page;
+        params['category'] = category;
+        askPage('/item', params);
         $(window).scrollTop(0);
     });
 
