@@ -75,6 +75,7 @@ $(function () {
             if (data.status === 'success') {
                 $('#api-cart-count').text(0);
                 $('#inCart').text(JSON.stringify([]));
+                window.location.href = server.replace('/api','') + '/shop/payment/index?order=' + data.orderId;
                 alert('Заказ ' + data.orderId + ' успешно оформлен');
             }
         }
