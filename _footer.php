@@ -122,95 +122,94 @@
 <script src="assets/js/script.js"></script>
 
 <script>
-$('#consultation-form').validate({
-    onfocusout: false,
-    ignore: ".ignore",
-    rules: {
-        'Request[contact]': {required: true},
-        'Request[text]': {required: true},
-        'Request[accept]': {required: true}
-    },
-    messages: {
-        'Request[contact]': {required: ""},
-        'Request[text]': {required: ""},
-        'Request[accept]': {required: ""}
-    },
-    errorClass: 'invalid',
-    highlight: function (element, errorClass) {
-        $(element).closest('.form-row-element').addClass(errorClass);
-    },
-    unhighlight: function (element, errorClass) {
-        $(element).closest('.form-row-element').removeClass(errorClass)
-    },
-    errorPlacement: $.noop,
-    submitHandler: function (form) {
-        var data = $('#consultation-form');
-        formData = new FormData(data.get(0));
-        $.ajax({
-            contentType: false,
-            processData: false,
-            url: 'http://' + server + '/cart/help',
-            type: 'POST',
-            data: formData,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Accept', '*/*');
-                xhr.setRequestHeader('Cache-Control', 'no-cache');
-                xhr.setRequestHeader('Authorization', "Bearer " + token);
-            },
-            headers: {'Authorization': 'Bearer ' + token},
-            success: function (res) {
-                if (res.status === 'success') {
-                    $('[data-modal="consultation"]').addClass('successful');
-                }
-            },
-        });
-    }
-});
+    $('#consultation-form').validate({
+        onfocusout: false,
+        ignore: ".ignore",
+        rules: {
+            'Request[contact]': {required: true},
+            'Request[text]': {required: true},
+            'Request[accept]': {required: true}
+        },
+        messages: {
+            'Request[contact]': {required: ""},
+            'Request[text]': {required: ""},
+            'Request[accept]': {required: ""}
+        },
+        errorClass: 'invalid',
+        highlight: function (element, errorClass) {
+            $(element).closest('.form-row-element').addClass(errorClass);
+        },
+        unhighlight: function (element, errorClass) {
+            $(element).closest('.form-row-element').removeClass(errorClass)
+        },
+        errorPlacement: $.noop,
+        submitHandler: function (form) {
+            var data = $('#consultation-form').serialize();
+            console.log(data);
+            $.ajax({
+                contentType: false,
+                processData: false,
+                url: server + '/cart/help',
+                type: 'GET',
+                data: data,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Accept', '*/*');
+                    xhr.setRequestHeader('Cache-Control', 'no-cache');
+                    xhr.setRequestHeader('Authorization', "Bearer " + token);
+                },
+                headers: {'Authorization': 'Bearer ' + token},
+                success: function (res) {
+                    if (res.status === 'success') {
+                        $('[data-modal="consultation"]').addClass('successful');
+                    }
+                },
+            });
+        }
+    });
 
-$('#calculation-form').validate({
-    onfocusout: false,
-    ignore: ".ignore",
-    rules: {
-        'Request[contact]': {required: true},
-        'Request[text]': {required: true},
-        'Request[accept]': {required: true}
-    },
-    messages: {
-        'Request[contact]': {required: ""},
-        'Request[text]': {required: ""},
-        'Request[accept]': {required: ""}
-    },
-    errorClass: 'invalid',
-    highlight: function (element, errorClass) {
-        $(element).closest('.form-row-element').addClass(errorClass);
-    },
-    unhighlight: function (element, errorClass) {
-        $(element).closest('.form-row-element').removeClass(errorClass)
-    },
-    errorPlacement: $.noop,
-    submitHandler: function (form) {
-        var data = $('#calculation-form');
-        formData = new FormData(data.get(0));
-        $.ajax({
-            contentType: false,
-            processData: false,
-            url: 'http://' + server + '/cart/help',
-            type: 'POST',
-            data: formData,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Accept', '*/*');
-                xhr.setRequestHeader('Cache-Control', 'no-cache');
-                xhr.setRequestHeader('Authorization', "Bearer " + token);
-            },
-            headers: {'Authorization': 'Bearer ' + token},
-            success: function (res) {
-                if (res.status === 'success') {
-                    $('[data-modal="calculation"]').addClass('successful');
-                }
-            },
-        });
-    }
-});
+    $('#calculation-form').validate({
+        onfocusout: false,
+        ignore: ".ignore",
+        rules: {
+            'Request[contact]': {required: true},
+            'Request[text]': {required: true},
+            'Request[accept]': {required: true}
+        },
+        messages: {
+            'Request[contact]': {required: ""},
+            'Request[text]': {required: ""},
+            'Request[accept]': {required: ""}
+        },
+        errorClass: 'invalid',
+        highlight: function (element, errorClass) {
+            $(element).closest('.form-row-element').addClass(errorClass);
+        },
+        unhighlight: function (element, errorClass) {
+            $(element).closest('.form-row-element').removeClass(errorClass)
+        },
+        errorPlacement: $.noop,
+        submitHandler: function (form) {
+            var data = $('#calculation-form').serialize();
+            $.ajax({
+                contentType: false,
+                processData: false,
+                url: server + '/cart/help',
+                type: 'GET',
+                data: data,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Accept', '*/*');
+                    xhr.setRequestHeader('Cache-Control', 'no-cache');
+                    xhr.setRequestHeader('Authorization', "Bearer " + token);
+                },
+                headers: {'Authorization': 'Bearer ' + token},
+                success: function (res) {
+                    if (res.status === 'success') {
+                        $('[data-modal="calculation"]').addClass('successful');
+                    }
+                },
+            });
+        }
+    });
 </script>
 
 
