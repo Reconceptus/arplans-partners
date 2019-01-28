@@ -206,7 +206,9 @@ function askPage(url, params = {}, askCat = false) {
                     }
                 }
             }
+            $html.removeClass('ovh');
             project.showMore();
+
             if (params.id) {
                 project.initProjectGallery();
                 project.planCarousel();
