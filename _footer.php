@@ -72,12 +72,23 @@
                     <div class="custom-form">
                         <input type="hidden" name="Request[url]" value="" id="itemId">
                         <input type="hidden" name="Request[email]" value="<?= null ?>">
-                        <input type="hidden" name="Request[name]" value="-">
                         <input type="hidden" name="Request[phone]" value="-">
                         <input type="hidden" name="Request[type]" value="6">
                         <div class="form-row-element">
                             <div class="input">
-                                <input type="text" placeholder="*Ваше телефон, e-mail или любой другой контакт"
+                                <input type="text" placeholder="*Имя"
+                                       name="Request[name]">
+                            </div>
+                        </div>
+                        <div class="form-row-element">
+                            <div class="input">
+                                <input type="text" placeholder="*Регион"
+                                       name="Request[region]">
+                            </div>
+                        </div>
+                        <div class="form-row-element">
+                            <div class="input">
+                                <input type="text" placeholder="*Ваш телефон, e-mail или любой другой контакт"
                                        name="Request[contact]">
                             </div>
                         </div>
@@ -171,11 +182,15 @@
         onfocusout: false,
         ignore: ".ignore",
         rules: {
+            'Request[name]': {required: true},
+            'Request[region]': {required: true},
             'Request[contact]': {required: true},
             'Request[text]': {required: true},
             'Request[accept]': {required: true}
         },
         messages: {
+            'Request[name]': {required: ""},
+            'Request[region]': {required: ""},
             'Request[contact]': {required: ""},
             'Request[text]': {required: ""},
             'Request[accept]': {required: ""}
